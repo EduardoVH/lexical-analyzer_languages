@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analizador Léxico</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+        }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Analizador Léxico</h1>
+    <form action="/" method="post">
+        <textarea name="code" rows="10" cols="50">{{ code }}</textarea><br>
+        <input type="submit" class="btn btn-primary" value="Generar Análisis">
+    </form>
+
+    <div id="result" style="display: {{ 'block' if tokens else 'none' }}">
+        <h2>Resultado del Análisis</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Token</th>
+                <th>Línea</th>
+                <th>Palabra reservada (Python)</th>
+                <th>Palabra reservada (JavaScript)</th>
+                <th>Palabra reservada (R)</th>
+                <th>Símbolo</th>
+                <th>Paréntesis izquierdo</th>
+                <th>Paréntesis derecho</th>
+                <th>Llave izquierda</th>
+                <th>Llave derecha</th>
+                <th>Número</th>
+                <th>Identificador</th>
+                <th>Error de léxico</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for token in tokens %}
+                <tr>
+                    <td>{{ token.token }}</td>
+                    <td>{{ token.line }}</td>
+                    <td>{{ token.python_reserved }}</td>
+                    <td>{{ token.javascript_reserved }}</td>
+                    <td>{{ token.r_reserved }}</td>
+                    <td>{{ token.symbol }}</td>
+                    <td>{{ token.left_paren }}</td>
+                    <td>{{ token.right_paren }}</td>
+                    <td>{{ token.left_brace }}</td>
+                    <td>{{ token.right_brace }}</td>
+                    <td>{{ token.number }}</td>
+                    <td>{{ token.identifier }}</td>
+                    <td>{{ token.lexical_error }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3">Totales:</td>
+                <td>{{ counts.python_reserved_words }}</td>
+                <td>{{ counts.javascript_reserved_words }}</td>
+                <td>{{ counts.r_reserved_words }}</td>
+                <td>{{ counts.symbols }}</td>
+                <td>{{ counts.left_paren }}</td>
+                <td>{{ counts.right_paren }}</td>
+                <td>{{ counts.left_brace }}</td>
+                <td>{{ counts.right_brace }}</td>
+                <td>{{ counts.numbers }}</td>
+                <td>{{ counts.identifiers }}</td>
+                <td>{{ counts.lexical_errors }}</td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+</body>
+</html>
